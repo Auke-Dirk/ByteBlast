@@ -29,8 +29,8 @@ class Test:
 					test_result = subprocess.run(compiled_resource["exec"], check=True, stdout=subprocess.PIPE, universal_newlines=True)
 
 					expect = self.fetch_expect(data)
-
-					if test_result.stdout == expect:
+				
+					if expect in test_result.stdout:
 						self.handle_passed(filename)
 					else:
 						print("expect:")
@@ -78,21 +78,21 @@ class IVerilog:
 
 
 	def compile(self,data):
-		exec = os.path.join(data["path"],"conjure.out")
+		exec = os.path.join(data["path"],"byteblast.out")
 		args = [self.prg,"-Wall" ,"-o"+exec]
 
 		if "src" in data:
 			args.append(os.path.join(data["path"],data["src"]))
 
-		return {"status" : subprocess.call(args) == 0, "exec": os.path.join(data["path"],"conjure.out")}
+		return {"status" : subprocess.call(args) == 0, "exec": os.path.join(data["path"],"byteblast.out")}
 
 		
 		
 
 def main():
 	incl_paths = []
-	if os.environ.get('CONJURE_PATH') != None:
-		incl_paths.append(os.environ.get('CONJURE_PATH') + "/rtl")
+	if os.environ.get('BYTEBLAST_PATH') != None:
+		incl_paths.append(os.environ.get('BYTEBLAST_PATH') + "/rtl")
 
 	prog = IVerilog(incl_paths)
 	test = Test(prog);

@@ -1,5 +1,5 @@
 {
     "src": "fsm_tb.v",
-    "expect": ""
+    "expect-file": "fsm_tb.txt"
 }
   

@@ -27,8 +27,13 @@ parameter HIGH = 1'b1;
 
 reg [SIZE-1:0] state;
 
+initial begin
+   state = 3'b001;
+end 
+
 // DESIGN
 always @ (posedge clock_i)
+
 begin
    if (reset_i == 1'b1) 
    begin
@@ -53,12 +58,22 @@ end
   initial 
   begin
     $dumpfile("vcd/fsm_tb.vcd");
+    
     $dumpvars(0, fsm_tb);
     #0 clock_i=1'b0; reset_i = 1'b0; enable_i=1'b1;
-	#1 clock_i=1'b1;
-	#1 clock_i=1'b0;
-	#1 clock_i=1'b1;
-	#1 clock_i=1'b0;
+
+    $display("<begin>");
+	 $monitor("%b %b",clock_i,state);
+    #1 clock_i=1'b1;
+    $monitor("%b %b",clock_i,state);
+	 #1 clock_i=1'b0;
+    $monitor("%b %b",clock_i,state);
+	 #1 clock_i=1'b1;
+    $monitor("%b %b",clock_i,state);
+	 #1 clock_i=1'b0;
+    $monitor("%b %b",clock_i,state);
+    #1
+    $display("<end>");
   end
 
 endmodule
