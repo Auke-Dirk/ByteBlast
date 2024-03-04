@@ -79,11 +79,13 @@ class IVerilog:
 
 	def compile(self,data):
 		exec = os.path.join(data["path"],"byteblast.out")
-		args = [self.prg,"-Wall" ,"-o"+exec]
+		args = [self.prg,"-Wall" ,"-o"+exec, "-y"+self.include_paths[0]]
+	
 
 		if "src" in data:
 			args.append(os.path.join(data["path"],data["src"]))
 
+		print(args)
 		return {"status" : subprocess.call(args) == 0, "exec": os.path.join(data["path"],"byteblast.out")}
 
 		
@@ -93,7 +95,14 @@ def main():
 	incl_paths = []
 	if os.environ.get('BYTEBLAST_PATH') != None:
 		incl_paths.append(os.environ.get('BYTEBLAST_PATH') + "/rtl")
+	else:
+		import pathlib
+		cf = pathlib.Path(__file__).parent.resolve()
+		rtl_folder = cf.parent / "rtl"
+		if rtl_folder.exists():
+			incl_paths.append(str(rtl_folder))
 
+	print(incl_paths)
 	prog = IVerilog(incl_paths)
 	test = Test(prog);
 	path = os.getcwd()
@@ -107,7 +116,6 @@ def main():
 		regex = re.compile(sys.argv[1])
 		test_files = [i for i in test_files if regex.search(i)]		
 
-	print(test_files)
 	for filename in test_files:
 		test.dut(os.path.abspath(filename))
  

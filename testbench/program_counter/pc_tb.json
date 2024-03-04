@@ -1,0 +1,5 @@
+{
+    "src": "pc_tb.v",
+    "expect-file": "pc_tb.txt"
+}
+  
