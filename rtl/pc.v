@@ -5,7 +5,6 @@
     Module : Program Counter (pc)
 */
 
-
 module pc(clk, enable, reset, load, nxt_adr, crnt_adr);
 
 // Specifies the address with.
@@ -22,7 +21,7 @@ input [WIDTH-1:0] nxt_adr;
 output [WIDTH-1:0]crnt_adr;
 
 // -- OTHER
-reg [7:0] data;
+reg [WIDTH-1:0] data;
 
 initial begin
     data = {WIDTH{1'b0}};

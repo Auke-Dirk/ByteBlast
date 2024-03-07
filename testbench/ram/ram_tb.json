@@ -1,0 +1,5 @@
+{
+    "src": "ram_tb.v",
+    "expect-file": "ram_tb.txt"
+}
+  
