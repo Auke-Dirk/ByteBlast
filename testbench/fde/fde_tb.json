@@ -1,0 +1,5 @@
+{
+    "src": "fde_tb.v",
+    "expect-file": "fde_tb.txt"
+}
+  

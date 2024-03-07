@@ -85,7 +85,7 @@ class IVerilog:
 		if "src" in data:
 			args.append(os.path.join(data["path"],data["src"]))
 
-		print(args)
+		#print(args)
 		return {"status" : subprocess.call(args) == 0, "exec": os.path.join(data["path"],"byteblast.out")}
 
 		
@@ -102,7 +102,7 @@ def main():
 		if rtl_folder.exists():
 			incl_paths.append(str(rtl_folder))
 
-	print(incl_paths)
+	#print(incl_paths)
 	prog = IVerilog(incl_paths)
 	test = Test(prog);
 	path = os.getcwd()
