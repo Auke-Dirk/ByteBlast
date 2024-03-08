@@ -1,0 +1,5 @@
+{
+    "src": "byteblast8_tb.v",
+    "expect-file": "byteblast8_tb.txt"
+}
+  

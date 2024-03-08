@@ -79,7 +79,7 @@ class IVerilog:
 
 	def compile(self,data):
 		exec = os.path.join(data["path"],"byteblast.out")
-		args = [self.prg,"-Wall" ,"-o"+exec, "-y"+self.include_paths[0]]
+		args = [self.prg,"-Wall","-g2012" ,"-o"+exec, "-y"+self.include_paths[0]]
 	
 
 		if "src" in data:

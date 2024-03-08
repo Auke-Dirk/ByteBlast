@@ -14,7 +14,7 @@ initial begin
 end 
 
 
-fde_8bit fde1(
+fde fde1(
     .clk(clk),
     .enable(enable),
     .fetch(fetch),

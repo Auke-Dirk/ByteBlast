@@ -24,7 +24,7 @@ output [WIDTH-1:0]crnt_adr;
 reg [WIDTH-1:0] data;
 
 initial begin
-    data = {WIDTH{1'b0}};
+    data = {WIDTH{1'b1}};
 end 
 
 always @(posedge clk) 
