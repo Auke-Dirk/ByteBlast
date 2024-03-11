@@ -21,7 +21,7 @@ input [DATA_BITS-1:0] data_in;
 output reg [DATA_BITS-1:0] data_out;
 
 // -- OTHER
-reg [DATA_BITS-1:0] data [ADDRESS_BITS-1:0];
+reg [DATA_BITS-1:0] data [DATA_SIZE-1:0];
 
 
 always @(posedge clk) begin

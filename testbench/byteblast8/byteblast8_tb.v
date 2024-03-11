@@ -2,7 +2,6 @@
 
 module fde_tb();
 
-
 reg clk;
 reg enable;
 reg load;
@@ -60,10 +59,10 @@ ram #(5,8) ram1(
   begin
     ram1.data[0] = 8'b00100011; // 001 00011 LD  : address 3
     ram1.data[1] = 8'b01000100; // 010 00100 ADD : address 4
-    ram1.data[2] = 8'b01000101; // 100 00100 STR : address 5
+    ram1.data[2] = 8'b10000101; // 100 00101 STR : address 5
     ram1.data[3] = 2;
     ram1.data[4] = 5;
-    ram1.data[5] = 0;
+    ram1.data[5] = 0; // 7 
 
     #1
     $dumpfile("vcd/byteblast8.vcd");    
