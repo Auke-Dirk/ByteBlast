@@ -1,0 +1,5 @@
+{
+    "src": "memory_select_tb.v",
+    "expect-file": "memory_select_tb.txt"
+}
+  

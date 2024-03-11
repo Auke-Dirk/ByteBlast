@@ -13,7 +13,7 @@ module mux4(sel, a, b, c, d, out);
   input [BITS-1:0] c;
   input [BITS-1:0] d;
   
-  output [3:0] out;          
+  output [BITS-1:0] out;          
 
   /*
   2'b00 : out <= a;  
