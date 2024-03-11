@@ -1,6 +1,6 @@
 `timescale 10ns / 1ns
 
-module fde_tb();
+module byteblast8_tb();
 
 reg clk;
 reg enable;
@@ -18,6 +18,11 @@ wire fetch;
 wire decode;
 wire execute;
 
+wire[7:0] pc_ramin_a;
+wire[7:0] ctrl_ramin_b;
+//wire fde_ramin_select;
+wire[7:0] ramin_ram;
+
 
 initial begin
    clk = 0;
@@ -28,6 +33,14 @@ end
 /*
   [fde:fetch] -> [pc:enable]
 */
+
+
+mux2 ramin(
+  .select(fetch),
+  .a(pc_ramin_a),
+  .b(ctrl_ramin_b),
+  .c(ramin_ram)
+);
 
 pc #(5) pc1(
     .clk(clk),
@@ -45,6 +58,13 @@ fde fde1(
     .decode(decode),
     .execute(execute)
     );
+
+ctrl ctrl1(
+  .clk(clk),
+  .enable(decode),
+  .value(value_out),
+  .o_address(ctrl_ramin_b)
+  );
 
 ram #(5,8) ram1(
     .clk(clk),
@@ -70,12 +90,13 @@ ram #(5,8) ram1(
     #1
     $display("C>  FDE :  A   V");
     #1
-    $monitor("%b> %b %b %b: %d %d",clk, fetch,decode, execute, crnt_adr,value_out);
+    $monitor("%b> %b %b %b: %d %d",clk, fetch,decode, execute, crnt_adr,value_out);    
     #1
     for (i=0; i<12; i=i+1) begin
       #1
       clk = 1;
       $monitor("%b> %b %b %b: %d %d",clk, fetch,decode, execute, crnt_adr,value_out);
+      $monitor("> instr: %d addr:%d sel:%d mux-addr:%d rm:%d" , ctrl1.instr, ctrl1.address, ramin.select, ramin.c, ram1.data_out);
 
       #1
       clk = 0;

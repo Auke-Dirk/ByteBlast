@@ -4,7 +4,7 @@
     Module : Fetch Decode Execute (fde 8 bit)
 */
 
-module fde(clk, enable, fetch, decode, execute);
+module fde(clk, enable, fetch, decode, execute, fde_state);
 
 localparam FETCH = 0;
 localparam DECODE = 1;
@@ -20,7 +20,7 @@ output decode;
 output execute;
 
 // internal
-reg [1:0]fde_state;
+output reg [1:0]fde_state;
 
 initial begin
     fde_state = EXECUTE;
