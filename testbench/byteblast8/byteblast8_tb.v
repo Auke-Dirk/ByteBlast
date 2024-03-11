@@ -8,10 +8,10 @@ reg enable;
 reg load;
 reg reset;
 reg w_ram;
-reg [5:0]nxt_adr;
+reg [4:0]nxt_adr;
 
 reg[7:0]ram_reg;
-wire [5:0]crnt_adr;
+wire [4:0]crnt_adr;
 wire [7:0]value_out;
 
 
@@ -30,7 +30,7 @@ end
   [fde:fetch] -> [pc:enable]
 */
 
-pc #(6) pc1(
+pc #(5) pc1(
     .clk(clk),
     .enable(fetch),
     .reset(reset),
@@ -47,7 +47,7 @@ fde fde1(
     .execute(execute)
     );
 
-ram ram1(
+ram #(5,8) ram1(
     .clk(clk),
     .enable(w_ram), // should be called w_enable
     .address(crnt_adr),
@@ -58,18 +58,20 @@ ram ram1(
   integer i;
   initial 
   begin
-    ram1.data[0] = 1;
-    ram1.data[1] = 2;
-    ram1.data[2] = 3;
-    ram1.data[3] = 4;
+    ram1.data[0] = 8'b00100011; // 001 00011 LD  : address 3
+    ram1.data[1] = 8'b01000100; // 010 00100 ADD : address 4
+    ram1.data[2] = 8'b01000101; // 100 00100 STR : address 5
+    ram1.data[3] = 2;
+    ram1.data[4] = 5;
+    ram1.data[5] = 0;
 
     #1
     $dumpfile("vcd/byteblast8.vcd");    
     $display("<begin>");
     #1
-    $monitor("%b> %b %b %b: %d %d",clk, fetch,decode, execute, crnt_adr,value_out);
+    $display("C>  FDE :  A   V");
     #1
-    $display("<----->");
+    $monitor("%b> %b %b %b: %d %d",clk, fetch,decode, execute, crnt_adr,value_out);
     #1
     for (i=0; i<12; i=i+1) begin
       #1
