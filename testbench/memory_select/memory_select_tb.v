@@ -94,7 +94,8 @@ mux4 #(5) mux4_1(
     a4 = 3;
   
     #1
-    $dumpfile("vcd/memory_select.vcd");    
+    $dumpfile("vcd/memory_select.vcd");
+    $dumpvars(0, ram_1);    
     $display("<begin>");
     
     

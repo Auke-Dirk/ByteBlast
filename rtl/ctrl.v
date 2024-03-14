@@ -15,7 +15,7 @@ input clk;
 input enable;
 input [VALUE_BITS - 1 : 0] value;
 
-output reg [7:0] o_address;
+output reg [ADDRESS_BITS - 1:0] o_address;
 
 reg [INSTR_BITS:0] instr;
 reg [ADDRESS_BITS:0] address;
