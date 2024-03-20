@@ -24,13 +24,13 @@ output [WIDTH-1:0]crnt_adr;
 reg [WIDTH-1:0] data;
 
 initial begin
-    data = {WIDTH{1'b1}};
+    data = {WIDTH{1'b0}};
 end 
 
 always @(posedge clk) 
 begin
     if (reset == 1) begin
-        data <= {WIDTH{1'b0}};
+        data <= {WIDTH{1'b1}};
     end else if (load == 1) begin
         data <= nxt_adr;
     end else if (enable == 1) begin

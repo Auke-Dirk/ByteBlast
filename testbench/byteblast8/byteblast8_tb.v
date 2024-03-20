@@ -32,10 +32,12 @@ parameter ADDRESS_BITS = 5;
 parameter DATA_BITS = 8;
 
 reg clk;
+reg halv_clk;
+wire exec_clk;
 reg enable;
 reg ram_enable;
 
-//reg [ADDRESS_BITS-1:0] a1; 
+reg [ADDRESS_BITS-1:0] a1; 
 reg [ADDRESS_BITS-1:0] a2; 
 reg [ADDRESS_BITS-1:0] a3; 
 reg [ADDRESS_BITS-1:0] a4; 
@@ -61,10 +63,24 @@ wire [7:0] ram_ctrl_value;
 // Unused
 wire [4:0] pc_next_address;
 
+clkdiv clkdiv_1(clk,halv_clk);
+
+inv inv1(clk,exec_clk);
+
+// Fetch Decode Execture 
+// This dictates which rtl is currently active
+fde fde_1(
+    .clk(halv_clk),
+    .enable(enable),
+    .fetch(fde_fetch),
+    .decode(fde_decode),
+    .execute(fde_execute),
+    .fde_state(fde_state)
+    );
 
 // Program Counter
 pc #(5) pc1(
-    .clk(clk),
+    .clk(halv_clk),
     .enable(fde_fetch),
     .reset(reset),
     .load(load),
@@ -74,21 +90,14 @@ pc #(5) pc1(
 
 // Controler / Decoder
 ctrl ctrl1(
-      .clk(clk),
+      .clk(exec_clk),
       .enable(fde_decode),
       .value(ram_ctrl_value),
       .o_address(ctrl_ram_select)
       );
   
 
-fde fde_1(
-    .clk(clk),
-    .enable(enable),
-    .fetch(fde_fetch),
-    .decode(fde_decode),
-    .execute(fde_execute),
-    .fde_state(fde_state)
-    );
+
 
 ram #(5,8) ram_1(
     .clk(clk),
@@ -115,27 +124,37 @@ mux4 #(5) mux4_1(
     enable = 1;
     clk = 0;
 
-    ram_1.data[0] = 8'b00100011; // 001 00011 LD  : address 3
-    ram_1.data[1] = 8'b01000100; // 010 00100 ADD : address 4
-    ram_1.data[2] = 8'b10000101; // 100 00101 STR : address 5
+    ram_1.data[0] = 8'b00100011; //  35 23x 001 00011 LD  : address 3
+    ram_1.data[1] = 8'b01000100; //  68 44x 010 00100 ADD : address 4
+    ram_1.data[2] = 8'b10000101; // 133 85x 100 00101 STR : address 5
     ram_1.data[3] = 2;
     ram_1.data[4] = 5;
     ram_1.data[5] = 0; // 7 
     
-    a2 = 0;
-    a3 = 0;
-    a4 = 0;
+
+
+
+    a1 = 7;
+    a2 = 8;
+    a3 = 9;
+    a4 = 10;
   
     #1
-    $dumpfile("vcd/memory_select.vcd");
+    $dumpfile("vcd/byteblast8.vcd");
     $dumpvars(0, ram_1);    
+    $dumpvars(0, mux4_1);
+    $dumpvars(0, ctrl1);
+    $dumpvars(0, fde_1);
+    $dumpvars(0, pc1);
+    $dumpvars(0,clkdiv_1);
+    
     $display("<begin>");
     
     
-    for (i=0; i<3; i=i+1) begin
+    for (i=0; i<18; i=i+1) begin
       #1
       clk = 1;
-      $monitor("address:%d value:%b %b %b",mux_address, ram_ctrl_value, ctrl1.value, fde_decode);
+      $monitor("address:%d value:%b %d %d %d %d",mux_address, ram_ctrl_value, ctrl1.instr,ctrl1.address, fde_state, halv_clk);
       #1
       clk = 0;
     end
