@@ -31,8 +31,9 @@ end
 
 always @(instr) begin
     case(instr)
-      'b01: o_address = address;
-      'b10: o_address = address; 
+      'b001: o_address = address;
+      'b010: o_address = address; 
+      'b100: o_address = address; 
     endcase
   end
 
