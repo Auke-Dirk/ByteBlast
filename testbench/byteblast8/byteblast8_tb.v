@@ -59,6 +59,7 @@ wire [4:0] ctrl_ram_select;
 
 // Wire for ram output
 wire [7:0] ram_ctrl_value;
+wire ram_write;
 
 // Wire fo alu
 wire[7:0] ctrl_alu_opcode_lhs;
@@ -102,7 +103,8 @@ ctrl ctrl1(
       .enable(fde_decode),
       .value(ram_ctrl_value),
       .o_address(ctrl_ram_select),
-      .o_instr(ctrl_alu_opcode_lhs)
+      .o_instr(ctrl_alu_opcode_lhs),
+      .o_store(ram_write)
       );
   
 
@@ -110,9 +112,9 @@ ctrl ctrl1(
 
 ram #(5,8) ram_1(
     .clk(clk),
-    .enable(ram_enable), // should be called w_enable
+    .enable(ram_write), // should be called w_enable
     .address(mux_address),
-    .data_in(d1),
+    .data_in(accu_out),
     .data_out(ram_ctrl_value)
     );
 
@@ -184,11 +186,13 @@ mux4 #(5) mux4_1(
     for (i=0; i<18; i=i+1) begin
       #1
       clk = 1;
-      $monitor("address:%d value:%b %d %d %d %d",mux_address, ram_ctrl_value, ctrl1.instr,ctrl1.address, fde_state, halv_clk);
+      //$monitor("address:%d value:%b %d %d %d %d",mux_address, ram_ctrl_value, ctrl1.instr,ctrl1.address, fde_state, halv_clk);
       #1
       clk = 0;
     end
 
+    #1
+    $monitor("2 + 5 = %d", ram_1.data[5]);
     #1
     $display("<end>");
   end

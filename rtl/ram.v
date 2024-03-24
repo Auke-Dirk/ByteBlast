@@ -29,9 +29,9 @@ initial begin
 end 
 
 always @(posedge clk) begin
-    //if(enable) begin
-    //    data[address] <= data_in;
-   // end
+    if(enable) begin
+        data[address] <= data_in;
+    end
     data_out <=  data[address];
 end
 
