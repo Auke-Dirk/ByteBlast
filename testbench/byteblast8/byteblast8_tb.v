@@ -60,8 +60,16 @@ wire [4:0] ctrl_ram_select;
 // Wire for ram output
 wire [7:0] ram_ctrl_value;
 
+// Wire fo alu
+wire[7:0] ctrl_alu_opcode_lhs;
+
 // Unused
 wire [4:0] pc_next_address;
+
+// Accumulator
+wire[7:0] accu_in;
+wire[7:0] accu_out;
+
 
 clkdiv clkdiv_1(clk,halv_clk);
 
@@ -93,7 +101,8 @@ ctrl ctrl1(
       .clk(exec_clk),
       .enable(fde_decode),
       .value(ram_ctrl_value),
-      .o_address(ctrl_ram_select)
+      .o_address(ctrl_ram_select),
+      .o_instr(ctrl_alu_opcode_lhs)
       );
   
 
@@ -111,9 +120,25 @@ mux4 #(5) mux4_1(
   .sel(fde_state),
   .a(pc_ram_select),
   .b(ctrl_ram_select),
-  .c(a3),
+  .c(ctrl_ram_select),
   .d(a4),
   .out(mux_address)
+  );
+
+  alu8 alu8_1(
+  .clk(exec_clk),
+  .enable(fde_execute),
+  .opcode(ctrl_alu_opcode_lhs),
+  .operand_lhs(ram_ctrl_value),
+  .operand_rhs(accu_out),
+  .result(accu_in)
+  );
+
+  register register_1
+  (.clk(clk),
+  .enable(enable),
+  .data_in(accu_in),
+  .data_o(accu_out)
   );
 
   integer i;
@@ -130,9 +155,12 @@ mux4 #(5) mux4_1(
     ram_1.data[3] = 2;
     ram_1.data[4] = 5;
     ram_1.data[5] = 0; // 7 
+    ram_1.data[6] = 0; // 7 
+    ram_1.data[7] = 0; // 7 
+    ram_1.data[8] = 0; // 7 
+    ram_1.data[9] = 0; // 7 
+
     
-
-
 
     a1 = 7;
     a2 = 8;
@@ -147,6 +175,8 @@ mux4 #(5) mux4_1(
     $dumpvars(0, fde_1);
     $dumpvars(0, pc1);
     $dumpvars(0,clkdiv_1);
+    $dumpvars(0,register_1);
+    $dumpvars(0,alu8_1);
     
     $display("<begin>");
     

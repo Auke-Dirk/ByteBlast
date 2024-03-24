@@ -23,12 +23,16 @@ output reg [DATA_BITS-1:0] data_out;
 // -- OTHER
 reg [DATA_BITS-1:0] data [DATA_SIZE-1:0];
 
+initial begin
+    data_out = 0;
+    data[0] = 0;
+end 
 
 always @(posedge clk) begin
-    if(enable) begin
-        data[address] <= data_in;
-    end
-    data_out <= data[address];
+    //if(enable) begin
+    //    data[address] <= data_in;
+   // end
+    data_out <=  data[address];
 end
 
 endmodule

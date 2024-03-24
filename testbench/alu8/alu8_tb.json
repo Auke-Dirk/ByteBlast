@@ -1,0 +1,5 @@
+{
+    "src": "alu8_tb.v",
+    "expect-file": "alu8_tb.txt"
+}
+  

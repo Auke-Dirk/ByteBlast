@@ -1,0 +1,51 @@
+[*]
+[*] GTKWave Analyzer v3.3.111 (w)1999-2020 BSI
+[*] Sat Mar 23 13:40:20 2024
+[*]
+[dumpfile] "/home/auke/git/ByteBlast/testbench/vcd/byteblast8.vcd"
+[dumpfile_mtime] "Sat Mar 23 12:46:56 2024"
+[dumpfile_size] 3556
+[savefile] "/home/auke/git/ByteBlast/testbench/vcd/byteblast.gtkw"
+[timestart] 10
+[size] 2560 1440
+[pos] -1286 -6
+*-4.882864 120 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] byteblast8_tb.
+[sst_width] 276
+[signals_width] 158
+[sst_expanded] 1
+[sst_vpaned_height] 449
+@28
+byteblast8_tb.clkdiv_1.clk
+byteblast8_tb.clkdiv_1.clk_out
+@200
+-
+@22
+byteblast8_tb.ram_1.address[4:0]
+byteblast8_tb.ram_1.data_out[7:0]
+@200
+-
+@22
+byteblast8_tb.ctrl1.value[7:0]
+byteblast8_tb.ctrl1.instr[3:0]
+byteblast8_tb.ctrl1.o_address[4:0]
+@200
+-
+-ALU
+@28
+byteblast8_tb.alu8_1.clk
+byteblast8_tb.alu8_1.enable
+@22
+byteblast8_tb.alu8_1.opcode[7:0]
+byteblast8_tb.alu8_1.operand_lhs[7:0]
+byteblast8_tb.alu8_1.operand_rhs[7:0]
+byteblast8_tb.alu8_1.result[7:0]
+@200
+-
+-ACCUMULATOR
+@22
+byteblast8_tb.register_1.memory[7:0]
+@29
+byteblast8_tb.register_1.clk
+[pattern_trace] 1
+[pattern_trace] 0
