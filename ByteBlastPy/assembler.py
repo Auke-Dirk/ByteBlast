@@ -1,8 +1,5 @@
-#!/usr/bin/env python3
-
 import os
 import sys
-
 
 class Assembler():
   
@@ -11,6 +8,7 @@ class Assembler():
   lines = []
   mnemonics = {}
   machine_code =bytearray()
+  debug = False
   
   def __init__(self) -> None:
     print ("ByteBlast assembler")
@@ -67,8 +65,11 @@ class Assembler():
         self.machine_code.append(value)
       else:
          self.machine_code.append(int(line[0],2))
-        
-          
+  
+  def bit_string(self):
+    for byte in self.machine_code:
+       print(byte)    
+    return "bam"      
        
 if __name__== "__main__":
     a = Assembler()

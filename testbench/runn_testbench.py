@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 
-import json
 import os
+import sys
+
+root_folder = os.path.join(os.path.dirname(__file__), "..")
+sys.path.append(root_folder)
+
+import json
 import glob
 import pprint
 import subprocess
-import sys
 import re
 from shutil import which
+from ByteBlastPy import verilog
 
 
 class Test:
@@ -64,33 +69,6 @@ class Test:
 		print("[%d] [FAILED] %s." % (self.count,filename))
 
 
-
-class IVerilog:
-	
-	def __init__(self,include_paths):
-		self.include_paths = include_paths
-		self.prg = which("iverilog")
-		if self.prg == None:
-			raise ("Could not locate iverilog executable")		
-		
-	def info(self):
-		return [ self.include_paths, self.prg]
-
-
-	def compile(self,data):
-		exec = os.path.join(data["path"],"byteblast.out")
-		args = [self.prg,"-Wall","-g2012" ,"-o"+exec, "-y"+self.include_paths[0]]
-	
-
-		if "src" in data:
-			args.append(os.path.join(data["path"],data["src"]))
-
-		#print(args)
-		return {"status" : subprocess.call(args) == 0, "exec": os.path.join(data["path"],"byteblast.out")}
-
-		
-		
-
 def main():
 	incl_paths = []
 	if os.environ.get('BYTEBLAST_PATH') != None:
@@ -103,7 +81,7 @@ def main():
 			incl_paths.append(str(rtl_folder))
 
 	#print(incl_paths)
-	prog = IVerilog(incl_paths)
+	prog = verilog.IVerilog(incl_paths)
 	test = Test(prog);
 	path = os.getcwd()
 

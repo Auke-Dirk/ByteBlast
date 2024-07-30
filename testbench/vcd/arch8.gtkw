@@ -1,0 +1,35 @@
+[*]
+[*] GTKWave Analyzer v3.3.119 (w)1999-2024 BSI
+[*] Mon Jul 29 16:46:06 2024
+[*]
+[dumpfile] "/data/git/ByteBlast/testbench/vcd/arch8.vcd"
+[dumpfile_mtime] "Mon Jul 29 16:41:27 2024"
+[dumpfile_size] 4629
+[savefile] "/data/git/ByteBlast/testbench/vcd/arch8.gtkw"
+[timestart] 0
+[size] 1920 1080
+[pos] -966 -6
+*-5.887463 27 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] arch8_tb.
+[treeopen] arch8_tb.cpu.
+[sst_width] 269
+[signals_width] 134
+[sst_expanded] 1
+[sst_vpaned_height] 324
+@28
+arch8_tb.cpu.clk
+arch8_tb.cpu.clkdiv_1.clk_out
+@200
+-FDE
+@28
+arch8_tb.cpu.fde_1.fetch
+arch8_tb.cpu.fde_1.decode
+arch8_tb.cpu.fde_1.execute
+@200
+-RAM
+@22
+arch8_tb.cpu.ram_1.data_in[7:0]
+@23
+arch8_tb.cpu.ram_1.data_out[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

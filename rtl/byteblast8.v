@@ -2,39 +2,18 @@
     Author : Auke Dirk Pietersma
     Project: ByteBlast https://github.com/Auke-Dirk/ByteBlast
     Module : Memory Select TB
-
-    Here we test which component is selected to request the current 
-    address to be read from ram. This will come available on the 
-    next clock.
-    
-    ram address,value
-      0,10
-      1,11
-      2,12
-      3,13
-      
-                      [mux_4]
-    [fed] state  ----> state  
-          pc     ----> a
-          reg 1  ----> b
-          reg 2  ----> c
-          reg 3  ----> d         [ram]
-                       out ----> address
-                                 data_out --> ram_ctrl_value 
-    
 */
 
-`timescale 10ns / 1ns
-
-module byteblast8_tb();
+module byteblast8(clk, enable);
 
 parameter ADDRESS_BITS = 5;
 parameter DATA_BITS = 8;
 
-reg clk;
+input clk;
+input enable;
+
 reg halv_clk;
 wire exec_clk;
-reg enable;
 
 wire fde_fetch;
 wire fde_decode;
@@ -134,51 +113,6 @@ mux4 #(5) mux4_1(
   .data_o(accu_out)
   );
 
-  integer i;
-  initial 
-  begin
 
-    enable = 1;
-    clk = 0;
-
-    ram_1.data[0] = 8'b00100011; //  35 23x 001 00011 LD  : address 3
-    ram_1.data[1] = 8'b01000100; //  68 44x 010 00100 ADD : address 4
-    ram_1.data[2] = 8'b10000101; // 133 85x 100 00101 STR : address 5
-    ram_1.data[3] = 2;
-    ram_1.data[4] = 5;
-    ram_1.data[5] = 0; // 7 
-    ram_1.data[6] = 0; // 7 
-    ram_1.data[7] = 0; // 7 
-    ram_1.data[8] = 0; // 7 
-    ram_1.data[9] = 0; // 7 
-
-      
-    #1
-    $dumpfile("vcd/byteblast8.vcd");
-    $dumpvars(0, ram_1);    
-    $dumpvars(0, mux4_1);
-    $dumpvars(0, ctrl1);
-    $dumpvars(0, fde_1);
-    $dumpvars(0, pc1);
-    $dumpvars(0,clkdiv_1);
-    $dumpvars(0,register_1);
-    $dumpvars(0,alu8_1);
-    
-    $display("<begin>");
-    
-    
-    for (i=0; i<18; i=i+1) begin
-      #1
-      clk = 1;
-      //$monitor("address:%d value:%b %d %d %d %d",mux_address, ram_ctrl_value, ctrl1.instr,ctrl1.address, fde_state, halv_clk);
-      #1
-      clk = 0;
-    end
-
-    #1
-    $monitor("2 + 5 = %d", ram_1.data[5]);
-    #1
-    $display("<end>");
-  end
 
 endmodule

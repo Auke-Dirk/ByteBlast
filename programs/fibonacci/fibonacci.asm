@@ -5,14 +5,14 @@ STO z
 LO y
 STO x
 LO z
-STR y
+STO y
 LO i
 SUB J
 STO i
 JNZA iterate
 halt:
-LO I
-ADD I
+LO i
+ADD i
 JNZA halt
 x: 1
 y: 1

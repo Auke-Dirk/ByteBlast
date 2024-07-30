@@ -1,0 +1,5 @@
+{
+    "src": "arch8_tb.v",
+    "expect-file": "arch8_tb.txt"
+}
+  
